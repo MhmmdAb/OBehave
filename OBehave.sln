@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBehave", "OBehave\OBehave.csproj", "{47184FF4-6E86-4821-96FF-207B700CBFE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBehave.Tests", "OBehave.Tests\OBehave.Tests.csproj", "{2A74CAE1-0487-4E7E-A427-88AD3A6FE522}"
+	ProjectSection(ProjectDependencies) = postProject
+		{47184FF4-6E86-4821-96FF-207B700CBFE5} = {47184FF4-6E86-4821-96FF-207B700CBFE5}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F469E5F3-1C1E-4092-84DA-C052B854B2CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{23E462B3-031F-4A6B-8C16-48ACCBC2DDF0}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47184FF4-6E86-4821-96FF-207B700CBFE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47184FF4-6E86-4821-96FF-207B700CBFE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47184FF4-6E86-4821-96FF-207B700CBFE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47184FF4-6E86-4821-96FF-207B700CBFE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A74CAE1-0487-4E7E-A427-88AD3A6FE522}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A74CAE1-0487-4E7E-A427-88AD3A6FE522}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A74CAE1-0487-4E7E-A427-88AD3A6FE522}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A74CAE1-0487-4E7E-A427-88AD3A6FE522}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
