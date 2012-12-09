@@ -46,8 +46,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BehaviorTreeResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Composite.cs" />
     <Compile Include="Leaf.cs" />
     <Compile Include="Node.cs" />
+    <Compile Include="NodeBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Selector.cs" />
     <Compile Include="Sequence.cs" />

@@ -4,30 +4,35 @@ using System.Collections.Generic;
 namespace OBehave
 {
     class Selector<TContext>
-        : Node<TContext>
+        : Composite<TContext>
     {
-        IList<Node<TContext>> nodes;
-
-        public Selector(IList<Node<TContext>> nodes)
+        public Selector(IList<Node<TContext>> nodes,
+                        Action                onEnter                = null,
+                        Action<TContext>      onEnterWithContext     = null,
+                        Action                onSucceeded            = null,
+                        Action<TContext>      onSucceededWithContext = null,
+                        Action                onFailed               = null,
+                        Action<TContext>      onFailedWithContext    = null,
+                        Action                onExit                 = null,
+                        Action<TContext>      onExitWithContext      = null)
+            : base(nodes,
+                   onEnter,     onEnterWithContext,
+                   onSucceeded, onSucceededWithContext,
+                   onFailed,    onFailedWithContext,
+                   onExit,      onExitWithContext)
         {
-            if (nodes == null)
-                throw new ArgumentNullException(BehaviorTreeResource.NodesCannotBeNull);
-
-            if (nodes.Count == 0)
-                throw new ArgumentException(BehaviorTreeResource.NodesCannotBeEmpty);
-            
-            this.nodes = nodes;
+            // Do nothing.
         }
 
-        public bool Update(TContext context)
+        protected override bool UpdateImplementation(TContext context)
         {
-            foreach (var node in nodes)
+            foreach (var node in Nodes)
             {
                 if (node.Update(context))
                     return true;
             }
 
             return false;
-        }        
+        }
     }
 }
