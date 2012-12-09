@@ -7,21 +7,12 @@ namespace OBehave
         : Composite<TContext>
     {
         public Selector(IList<Node<TContext>> nodes,
-                        Action                onEnter                = null,
-                        Action<TContext>      onEnterWithContext     = null,
-                        Action                onSucceeded            = null,
-                        Action<TContext>      onSucceededWithContext = null,
-                        Action                onFailed               = null,
-                        Action<TContext>      onFailedWithContext    = null,
-                        Action                onExit                 = null,
-                        Action<TContext>      onExitWithContext      = null)
-            : base(nodes,
-                   onEnter,     onEnterWithContext,
-                   onSucceeded, onSucceededWithContext,
-                   onFailed,    onFailedWithContext,
-                   onExit,      onExitWithContext)
+                        Action<TContext>      entryAction   = null,
+                        Action<TContext>      successAction = null,
+                        Action<TContext>      failureAction = null,
+                        Action<TContext>      exitAction    = null)
+            : base(nodes, entryAction, successAction, failureAction, exitAction)
         {
-            // Do nothing.
         }
 
         protected override bool UpdateImplementation(TContext context)

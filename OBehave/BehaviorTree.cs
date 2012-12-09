@@ -2,8 +2,16 @@
 
 namespace OBehave
 {
-    public class BehaviorTree<TContext>
+    public partial class BehaviorTree<TContext>
     {
+        public BehaviorTreeConfiguration Configure
+        {
+            get
+            {
+                return new BehaviorTreeConfiguration();
+            }            
+        }
+
         private Node<TContext> node;
 
         public BehaviorTree(Node<TContext> startNode)

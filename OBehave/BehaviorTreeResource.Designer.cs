@@ -79,11 +79,11 @@ namespace OBehave {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Argument &apos;onUpdate&apos; cannot be null.
+        ///   Looks up a localized string similar to Argument &apos;updateAction&apos; cannot be null.
         /// </summary>
-        internal static string OnUpdateCannotBeNull {
+        internal static string UpdateActionCannotBeNull {
             get {
-                return ResourceManager.GetString("OnUpdateCannotBeNull", resourceCulture);
+                return ResourceManager.GetString("UpdateActionCannotBeNull", resourceCulture);
             }
         }
     }

@@ -9,18 +9,11 @@ namespace OBehave
         protected IList<Node<TContext>> Nodes { get; private set; }
         
         public Composite(IList<Node<TContext>> nodes,
-                         Action           onEnter                = null,
-                         Action<TContext> onEnterWithContext     = null,
-                         Action           onSucceeded            = null,
-                         Action<TContext> onSucceededWithContext = null,
-                         Action           onFailed               = null,
-                         Action<TContext> onFailedWithContext    = null,
-                         Action           onExit                 = null,
-                         Action<TContext> onExitWithContext      = null)
-            : base(onEnter,     onEnterWithContext,
-                   onSucceeded, onSucceededWithContext,
-                   onFailed,    onFailedWithContext,
-                   onExit,      onExitWithContext)
+                         Action<TContext> entryAction,
+                         Action<TContext> successAction,
+                         Action<TContext> failureAction,
+                         Action<TContext> exitAction)
+            : base(entryAction, successAction, failureAction, exitAction)
         {
             if (nodes == null)
                 throw new ArgumentNullException(BehaviorTreeResource.NodesCannotBeNull);

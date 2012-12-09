@@ -5,32 +5,24 @@ namespace OBehave
     public class Leaf<TContext>
         : NodeBase<TContext>
     {
-        private Func<TContext, bool> onUpdate;
+        private Func<TContext, bool> updateAction;
 
-        public Leaf(Func<TContext, bool> onUpdate,
-                    Action               onEnter,
-                    Action<TContext>     onEnterWithContext,
-                    Action               onSucceeded,
-                    Action<TContext>     onSucceededWithContext,
-                    Action               onFailed,
-                    Action<TContext>     onFailedWithContext,
-                    Action               onExit,
-                    Action<TContext>     onExitWithContext)
-            : base(onEnter, onEnterWithContext,
-                   onSucceeded, onSucceededWithContext,
-                   onFailed, onFailedWithContext,
-                   onExit, onExitWithContext)
-
+        public Leaf(Func<TContext, bool> updateAction,
+                    Action<TContext>     entryAction,
+                    Action<TContext>     successAction,
+                    Action<TContext>     failureAction,
+                    Action<TContext>     exitAction)
+            : base(entryAction, successAction, failureAction, exitAction)
         {
-            if (onUpdate == null)
-                throw new ArgumentNullException(BehaviorTreeResource.OnUpdateCannotBeNull);
+            if (updateAction == null)
+                throw new ArgumentNullException(BehaviorTreeResource.UpdateActionCannotBeNull);
 
-            this.onUpdate = onUpdate;
+            this.updateAction = updateAction;
         }
 
         protected override bool UpdateImplementation(TContext context)
         {
-            return onUpdate(context);
+            return updateAction(context);
         }
     }
 }

@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BehaviorTree.cs" />
+    <Compile Include="BehaviorTreeConfiguration.cs" />
     <Compile Include="BehaviorTreeResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

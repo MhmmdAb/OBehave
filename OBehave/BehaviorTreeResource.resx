@@ -123,7 +123,7 @@
   <data name="NodesCannotBeNull" xml:space="preserve">
     <value>Argument 'nodes' cannot be null</value>
   </data>
-  <data name="OnUpdateCannotBeNull" xml:space="preserve">
-    <value>Argument 'onUpdate' cannot be null</value>
+  <data name="UpdateActionCannotBeNull" xml:space="preserve">
+    <value>Argument 'updateAction' cannot be null</value>
   </data>
 </root>
