@@ -13,19 +13,15 @@ namespace OBehave
 
             internal BehaviorTreeConfiguration(BehaviorTree<TContext> behaviorTree)
             {
-                Debug.Assert(behaviorTree.node == null);
                 this.behaviorTree = behaviorTree;
             }
 
-            public BehaviorTreeConfiguration BeginSelector(System.Action<TContext> onEnter   = null,
-                                                           System.Action<TContext> onSuccess = null,
-                                                           System.Action<TContext> onFailure = null,
-                                                           System.Action<TContext> onExit    = null)
+            public BehaviorTreeConfiguration BeginSelector()
             {
                 if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
                     throw new InvalidOperationException(); // TODO: Add message
 
-                var selector = new Selector<TContext>(onEnter, onSuccess, onFailure, onExit);
+                var selector = new Selector<TContext>();
 
                 if (stack.Count != 0)
                 {
@@ -41,15 +37,12 @@ namespace OBehave
                 return this;
             }
 
-            public BehaviorTreeConfiguration BeginSequence(System.Action<TContext> onEnter = null,
-                                                           System.Action<TContext> onSuccess = null,
-                                                           System.Action<TContext> onFailure = null,
-                                                           System.Action<TContext> onExit = null)
+            public BehaviorTreeConfiguration BeginSequence()
             {
                 if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
                     throw new InvalidOperationException(); // TODO: Add message
 
-                var sequence = new Sequence<TContext>(onEnter, onSuccess, onFailure, onExit);
+                var sequence = new Sequence<TContext>();
 
                 if (stack.Count != 0)
                 {
@@ -73,16 +66,17 @@ namespace OBehave
                 return this;
             }
 
-            public BehaviorTreeConfiguration Action(System.Action<TContext> onUpdate,
-                                                    System.Action<TContext> onEnter   = null,
-                                                    System.Action<TContext> onSuccess = null,
-                                                    System.Action<TContext> onFailure = null,
-                                                    System.Action<TContext> onExit    = null)
+            public BehaviorTreeConfiguration Action(System.Action onUpdate)
+            {
+                return Action(c => onUpdate());
+            }
+
+            public BehaviorTreeConfiguration Action(System.Action<TContext> onUpdate)
             {
                 if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
                     throw new InvalidOperationException(); // TODO: Add message
                 
-                var action = new OBehave.Action<TContext>(onUpdate, onEnter, onSuccess, onFailure, onExit);
+                var action = new OBehave.Action<TContext>(onUpdate);
 
                 if (stack.Count == 0)
                 {
@@ -92,25 +86,29 @@ namespace OBehave
                 }
                 else
                 {
-                    var parent = stack.Peek() as Composite<TContext>;
+                    var parent = stack.Peek() as Composite<TContext>;                    
                     System.Diagnostics.Debug.Assert(parent != null);
-                    parent.AddChildNode(action);                
+                    
+                    if (parent is Selector<TContext>)
+                        parent.AddChildNode(new Not<TContext>(action));
+                    else
+                        parent.AddChildNode(action);                
                 }
 
                 return this;
             }
 
-            public BehaviorTreeConfiguration Condition(System.Func<TContext, bool> onUpdate,
-                                                       System.Action<TContext> onEnter   = null,
-                                                       System.Action<TContext> onSuccess = null,
-                                                       System.Action<TContext> onFailure = null,
-                                                       System.Action<TContext> onExit    = null)
+            public BehaviorTreeConfiguration Condition(System.Func<bool> onUpdate)
+            {
+                return Condition(c => onUpdate());
+            }
 
+            public BehaviorTreeConfiguration Condition(System.Func<TContext, bool> onUpdate)
             {
                 if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
                     throw new InvalidOperationException(); // TODO: Add message
                 
-                var condition = new Condition<TContext>(onUpdate, onEnter, onSuccess, onFailure, onExit);
+                var condition = new Condition<TContext>(onUpdate);
 
                 if (stack.Count == 0)
                 {
@@ -129,4 +127,47 @@ namespace OBehave
             }
         }
     }
+
+    public partial class BehaviorTree
+    {
+        public class BehaviorTreeConfiguration
+        {
+            private BehaviorTree<object>.BehaviorTreeConfiguration config;
+            internal BehaviorTreeConfiguration(BehaviorTree<object>.BehaviorTreeConfiguration config)
+            {
+                this.config = config;
+            }
+
+            public BehaviorTreeConfiguration BeginSelector()
+            {
+                config.BeginSelector();
+                return this;
+            }
+
+            public BehaviorTreeConfiguration BeginSequence()
+            {
+                config.BeginSequence();
+                return this;
+            }
+
+            public BehaviorTreeConfiguration End()
+            {
+                config.End();
+                return this;
+            }
+
+            public BehaviorTreeConfiguration Action(System.Action onUpdate)
+            {
+                config.Action(onUpdate);
+                return this;
+            }
+
+            public BehaviorTreeConfiguration Condition(System.Func<bool> onUpdate)
+            {
+                config.Condition(onUpdate);
+                return this;
+            }
+        }
+    }
+
 }

@@ -10,17 +10,10 @@ namespace OBehave
 
         protected IList<Node<TContext>> Nodes
         { 
-            get
-            {
-                return nodes;
-            }
+            get { return nodes; }
         }
         
-        public Composite(System.Action<TContext> entryAction   = null,
-                         System.Action<TContext> successAction = null,
-                         System.Action<TContext> failureAction = null,
-                         System.Action<TContext> exitAction    = null)
-            : base(entryAction, successAction, failureAction, exitAction)
+        public Composite()
         {
         }
 

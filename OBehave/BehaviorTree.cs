@@ -13,17 +13,36 @@ namespace OBehave
             return new BehaviorTreeConfiguration(this);
         }
 
-        
-
         public BehaviorTree()
         {
         }
 
-        public bool Update(TContext context)        
+        public bool Update(TContext context)
         {
             if (node == null)
                 throw new InvalidOperationException(); // TODO: Add message
             return node.Update(context);
         }
+    }
+
+    public partial class BehaviorTree
+    {
+        private BehaviorTree<object> implementation;
+
+        public BehaviorTreeConfiguration Configure()
+        {
+            return new BehaviorTreeConfiguration(implementation.Configure());
+        }
+
+        public BehaviorTree()
+        {
+            implementation = new BehaviorTree<object>();
+        }
+
+        public bool Update()
+        {
+            return implementation.Update(null);
+        }
+
     }
 }

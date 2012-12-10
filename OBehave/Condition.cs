@@ -7,12 +7,7 @@ namespace OBehave
     {
         private System.Func<TContext, bool> updateAction;
 
-        public Condition(System.Func<TContext, bool> updateAction,
-                         System.Action<TContext> onEnter   = null,
-                         System.Action<TContext> onSuccess = null,
-                         System.Action<TContext> onFailure = null,
-                         System.Action<TContext> onExit    = null)
-            : base(onEnter, onSuccess, onFailure, onExit)
+        public Condition(System.Func<TContext, bool> updateAction)
         {
             if (updateAction == null)
                 throw new ArgumentNullException(BehaviorTreeResource.UpdateActionCannotBeNull);
