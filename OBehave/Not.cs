@@ -10,7 +10,7 @@ namespace OBehave
         public Not(Node<TContext> node)
         {
             if (node == null)
-                throw new ArgumentNullException(); // TODO: Add message
+                throw new ArgumentNullException();
             this.node = node;
         }
 

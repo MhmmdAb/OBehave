@@ -117,11 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActionMustBeNestedUnderCompositeNodes" xml:space="preserve">
+    <value>Actions can only be nested under either Sequences or Selctors</value>
+  </data>
+  <data name="ConditionsMustBeNesterUnderCompositeNodes" xml:space="preserve">
+    <value>Conditions can only be nested under either Sequences or Selctors</value>
+  </data>
+  <data name="ConfigureMustBeCalledBeforeUpdate" xml:space="preserve">
+    <value>'Configure' method be called before calling 'Update'</value>
+  </data>
+  <data name="ConfigureMustBeCalledOnce" xml:space="preserve">
+    <value>'Configure' method cannot be called more than once per BehaviorTree instance</value>
+  </data>
+  <data name="EndCanOnlyBeCalledOnCompositeNodes" xml:space="preserve">
+    <value>'End' method must not be called for nodes that are  either Selectors or Sequences</value>
+  </data>
   <data name="NodesCannotBeEmpty" xml:space="preserve">
     <value>Argument 'nodes' must contain at least one element</value>
   </data>
   <data name="NodesCannotBeNull" xml:space="preserve">
     <value>Argument 'nodes' cannot be null</value>
+  </data>
+  <data name="SelectorMustBeNestedUnderCompositeNodes" xml:space="preserve">
+    <value>Selectors can only be nested under either Sequences or other Selctors</value>
+  </data>
+  <data name="SequenceMustBeNestedUnderCompositeNodes" xml:space="preserve">
+    <value>Sequences can only be nested under either Selectors or other Sequences</value>
   </data>
   <data name="UpdateActionCannotBeNull" xml:space="preserve">
     <value>Argument 'updateAction' cannot be null</value>

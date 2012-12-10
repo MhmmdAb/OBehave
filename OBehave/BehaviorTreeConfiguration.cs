@@ -19,7 +19,9 @@ namespace OBehave
             public BehaviorTreeConfiguration BeginSelector()
             {
                 if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
-                    throw new InvalidOperationException(); // TODO: Add message
+                    throw new InvalidOperationException
+                        (BehaviorTreeResource.SelectorMustBeNestedUnderCompositeNodes
+                        );
 
                 var selector = new Selector<TContext>();
 
@@ -40,7 +42,9 @@ namespace OBehave
             public BehaviorTreeConfiguration BeginSequence()
             {
                 if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
-                    throw new InvalidOperationException(); // TODO: Add message
+                    throw new InvalidOperationException
+                        (BehaviorTreeResource.SequenceMustBeNestedUnderCompositeNodes
+                        );
 
                 var sequence = new Sequence<TContext>();
 
@@ -61,7 +65,10 @@ namespace OBehave
             public BehaviorTreeConfiguration End()
             {
                 if (stack.Count == 0 || !(stack.Peek() is Composite<TContext>))
-                    throw new InvalidOperationException(); // TODO: Add message
+                    throw new InvalidOperationException
+                        (BehaviorTreeResource.EndCanOnlyBeCalledOnCompositeNodes
+                        );
+
                 stack.Pop();
                 return this;
             }
@@ -70,11 +77,13 @@ namespace OBehave
             {
                 return Action(c => onUpdate());
             }
-
+            
             public BehaviorTreeConfiguration Action(System.Action<TContext> onUpdate)
             {
                 if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
-                    throw new InvalidOperationException(); // TODO: Add message
+                    throw new InvalidOperationException
+                        (BehaviorTreeResource.ActionMustBeNestedUnderCompositeNodes
+                        );
                 
                 var action = new OBehave.Action<TContext>(onUpdate);
 
@@ -106,7 +115,9 @@ namespace OBehave
             public BehaviorTreeConfiguration Condition(System.Func<TContext, bool> onUpdate)
             {
                 if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
-                    throw new InvalidOperationException(); // TODO: Add message
+                    throw new InvalidOperationException
+                        (BehaviorTreeResource.ConditionsMustBeNesterUnderCompositeNodes
+                        );
                 
                 var condition = new Condition<TContext>(onUpdate);
 

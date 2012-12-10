@@ -39,11 +39,8 @@ namespace OBehave.Tests
             var wasCalled = false;
             
             var tree = new BehaviorTree();
-            tree.Configure()
-                .Action(() => wasCalled = true);
-            
+            tree.Configure().Action(() => wasCalled = true);            
             tree.Update();
-
             Assert.True(wasCalled);
         }
 
@@ -53,15 +50,12 @@ namespace OBehave.Tests
             var wasCalled = false;            
             
             var tree = new BehaviorTree();
-            tree.Configure()
-                .Condition(() => 
-                {
-                    wasCalled = true;
-                    return false;
-                });
-
+            tree.Configure().Condition(() => 
+            {
+                wasCalled = true;
+                return false;
+            });
             tree.Update();
-
             Assert.True(wasCalled);
         }
 
@@ -70,13 +64,11 @@ namespace OBehave.Tests
         {
             var tree = new BehaviorTree();
             var actionCount = 0;
-            tree.Configure()
-                .BeginSequence()
-                    .Action(() => Assert.That(++actionCount == 1))
-                    .Action(() => Assert.That(++actionCount == 2))
-                    .Action(() => Assert.That(++actionCount == 3))
-                .End();
-            
+            tree.Configure().BeginSequence()
+                .Action(() => Assert.That(++actionCount == 1))
+                .Action(() => Assert.That(++actionCount == 2))
+                .Action(() => Assert.That(++actionCount == 3))
+            .End();            
             tree.Update();
         }
 
@@ -84,11 +76,10 @@ namespace OBehave.Tests
         public void Condition_returning_true_does_not_stop_sequence()
         {
             var tree = new BehaviorTree();
-            tree.Configure()
-                .BeginSequence()
-                    .Condition(() => true)
-                    .Action(() => Assert.True(true))
-                .End();
+            tree.Configure().BeginSequence()
+                .Condition(() => true)
+                .Action(() => Assert.True(true))
+            .End();
             tree.Update();
         }
 
@@ -96,12 +87,11 @@ namespace OBehave.Tests
         public void Condition_returning_false_stops_sequence()
         {
             var tree = new BehaviorTree();
-            tree.Configure()
-                .BeginSequence()
-                    .Action(() => Assert.True(true))
-                    .Condition(() => false)
-                    .Action(() => Assert.Fail())
-                .End();
+            tree.Configure().BeginSequence()
+                .Action(() => Assert.True(true))
+                .Condition(() => false)
+                .Action(() => Assert.Fail())
+            .End();
             tree.Update();
         }
 
@@ -138,6 +128,7 @@ namespace OBehave.Tests
         public void Selector_runs_steps_in_order()
         {
             var callCount = 0;
+
             var tree = new BehaviorTree();
             tree.Configure().BeginSelector()
                 .Action(() => Assert.That(++callCount == 1))
@@ -151,6 +142,7 @@ namespace OBehave.Tests
         public void Selector_runs_nested_sequence()
         {
             var wasNestedActionCalled = false;
+
             var tree = new BehaviorTree();
             tree.Configure().BeginSelector()
                 .BeginSequence()

@@ -22,7 +22,7 @@ namespace OBehave
         protected void EnsureUpdateWasNotCalled()
         {
             if (wasUpdateCalled)
-                throw new InvalidOperationException(); // TODO: Add message.
+                throw new InvalidOperationException();
         }
     }
 }

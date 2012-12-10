@@ -9,7 +9,7 @@ namespace OBehave
         public BehaviorTreeConfiguration Configure()
         {
             if (node != null)
-                throw new InvalidOperationException(); // TODO: Add message
+                throw new InvalidOperationException(BehaviorTreeResource.ConfigureMustBeCalledOnce);
             return new BehaviorTreeConfiguration(this);
         }
 
@@ -20,7 +20,7 @@ namespace OBehave
         public bool Update(TContext context)
         {
             if (node == null)
-                throw new InvalidOperationException(); // TODO: Add message
+                throw new InvalidOperationException(BehaviorTreeResource.ConfigureMustBeCalledBeforeUpdate);
             return node.Update(context);
         }
     }

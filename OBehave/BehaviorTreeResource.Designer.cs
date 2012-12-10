@@ -61,6 +61,51 @@ namespace OBehave {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actions can only be nested under either Sequences or Selctors.
+        /// </summary>
+        internal static string ActionMustBeNestedUnderCompositeNodes {
+            get {
+                return ResourceManager.GetString("ActionMustBeNestedUnderCompositeNodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conditions can only be nested under either Sequences or Selctors.
+        /// </summary>
+        internal static string ConditionsMustBeNesterUnderCompositeNodes {
+            get {
+                return ResourceManager.GetString("ConditionsMustBeNesterUnderCompositeNodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;Configure&apos; method be called before calling &apos;Update&apos;.
+        /// </summary>
+        internal static string ConfigureMustBeCalledBeforeUpdate {
+            get {
+                return ResourceManager.GetString("ConfigureMustBeCalledBeforeUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;Configure&apos; method cannot be called more than once per BehaviorTree instance.
+        /// </summary>
+        internal static string ConfigureMustBeCalledOnce {
+            get {
+                return ResourceManager.GetString("ConfigureMustBeCalledOnce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;End&apos; method must not be called for nodes that are  either Selectors or Sequences.
+        /// </summary>
+        internal static string EndCanOnlyBeCalledOnCompositeNodes {
+            get {
+                return ResourceManager.GetString("EndCanOnlyBeCalledOnCompositeNodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Argument &apos;nodes&apos; must contain at least one element.
         /// </summary>
         internal static string NodesCannotBeEmpty {
@@ -75,6 +120,24 @@ namespace OBehave {
         internal static string NodesCannotBeNull {
             get {
                 return ResourceManager.GetString("NodesCannotBeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selectors can only be nested under either Sequences or other Selctors.
+        /// </summary>
+        internal static string SelectorMustBeNestedUnderCompositeNodes {
+            get {
+                return ResourceManager.GetString("SelectorMustBeNestedUnderCompositeNodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sequences can only be nested under either Selectors or other Sequences.
+        /// </summary>
+        internal static string SequenceMustBeNestedUnderCompositeNodes {
+            get {
+                return ResourceManager.GetString("SequenceMustBeNestedUnderCompositeNodes", resourceCulture);
             }
         }
         
