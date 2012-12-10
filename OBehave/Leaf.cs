@@ -2,27 +2,15 @@
 
 namespace OBehave
 {
-    public class Leaf<TContext>
+    public abstract class Leaf<TContext>
         : NodeBase<TContext>
     {
-        private Func<TContext, bool> updateAction;
-
-        public Leaf(Func<TContext, bool> updateAction,
-                    Action<TContext>     entryAction,
-                    Action<TContext>     successAction,
-                    Action<TContext>     failureAction,
-                    Action<TContext>     exitAction)
+        protected Leaf(System.Action<TContext> entryAction   = null,
+                       System.Action<TContext> successAction = null,
+                       System.Action<TContext> failureAction = null,
+                       System.Action<TContext> exitAction    = null)
             : base(entryAction, successAction, failureAction, exitAction)
         {
-            if (updateAction == null)
-                throw new ArgumentNullException(BehaviorTreeResource.UpdateActionCannotBeNull);
-
-            this.updateAction = updateAction;
-        }
-
-        protected override bool UpdateImplementation(TContext context)
-        {
-            return updateAction(context);
         }
     }
 }

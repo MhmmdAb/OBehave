@@ -6,22 +6,28 @@ namespace OBehave
     abstract class Composite<TContext>
         : NodeBase<TContext>
     {
-        protected IList<Node<TContext>> Nodes { get; private set; }
+        private List<Node<TContext>> nodes = new List<Node<TContext>>();
+
+        protected IList<Node<TContext>> Nodes
+        { 
+            get
+            {
+                return nodes;
+            }
+        }
         
-        public Composite(IList<Node<TContext>> nodes,
-                         Action<TContext> entryAction,
-                         Action<TContext> successAction,
-                         Action<TContext> failureAction,
-                         Action<TContext> exitAction)
+        public Composite(System.Action<TContext> entryAction   = null,
+                         System.Action<TContext> successAction = null,
+                         System.Action<TContext> failureAction = null,
+                         System.Action<TContext> exitAction    = null)
             : base(entryAction, successAction, failureAction, exitAction)
         {
-            if (nodes == null)
-                throw new ArgumentNullException(BehaviorTreeResource.NodesCannotBeNull);
+        }
 
-            if (nodes.Count < 1)
-                throw new ArgumentException(BehaviorTreeResource.NodesCannotBeEmpty);
-
-            this.Nodes = nodes;
+        public void AddChildNode(Node<TContext> child)
+        {
+            EnsureUpdateWasNotCalled();
+            nodes.Add(child);
         }
     }
 }

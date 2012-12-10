@@ -6,12 +6,11 @@ namespace OBehave
     class Sequence<TContext>
         : Composite<TContext>
     {
-        public Sequence(IList<Node<TContext>> nodes,
-                        Action<TContext>      entryAction   = null,
-                        Action<TContext>      successAction = null,
-                        Action<TContext>      failureAction = null,
-                        Action<TContext>      exitAction    = null)
-            : base(nodes, entryAction, successAction, failureAction, exitAction)
+        public Sequence(System.Action<TContext> onEnter   = null,
+                        System.Action<TContext> onSuccess = null,
+                        System.Action<TContext> onFailure = null,
+                        System.Action<TContext> onExit    = null)
+            : base(onEnter, onSuccess, onFailure, onExit)
         {
         }
 

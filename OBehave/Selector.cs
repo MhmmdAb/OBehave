@@ -6,12 +6,11 @@ namespace OBehave
     class Selector<TContext>
         : Composite<TContext>
     {
-        public Selector(IList<Node<TContext>> nodes,
-                        Action<TContext>      entryAction   = null,
-                        Action<TContext>      successAction = null,
-                        Action<TContext>      failureAction = null,
-                        Action<TContext>      exitAction    = null)
-            : base(nodes, entryAction, successAction, failureAction, exitAction)
+        public Selector(System.Action<TContext> onEnter   = null,
+                        System.Action<TContext> onSuccess = null,
+                        System.Action<TContext> onFailure = null,
+                        System.Action<TContext> onExit    = null)
+            : base(onEnter, onSuccess, onFailure, onExit)
         {
         }
 

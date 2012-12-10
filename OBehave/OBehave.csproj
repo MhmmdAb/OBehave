@@ -40,6 +40,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action.cs" />
     <Compile Include="BehaviorTree.cs" />
     <Compile Include="BehaviorTreeConfiguration.cs" />
     <Compile Include="BehaviorTreeResource.Designer.cs">
@@ -48,6 +49,7 @@
       <DependentUpon>BehaviorTreeResource.resx</DependentUpon>
     </Compile>
     <Compile Include="Composite.cs" />
+    <Compile Include="Condition.cs" />
     <Compile Include="Leaf.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NodeBase.cs" />

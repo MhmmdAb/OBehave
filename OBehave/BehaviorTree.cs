@@ -4,26 +4,25 @@ namespace OBehave
 {
     public partial class BehaviorTree<TContext>
     {
-        public BehaviorTreeConfiguration Configure
+        private Node<TContext> node = null;
+
+        public BehaviorTreeConfiguration Configure()
         {
-            get
-            {
-                return new BehaviorTreeConfiguration();
-            }            
+            if (node != null)
+                throw new InvalidOperationException(); // TODO: Add message
+            return new BehaviorTreeConfiguration(this);
         }
 
-        private Node<TContext> node;
+        
 
-        public BehaviorTree(Node<TContext> startNode)
+        public BehaviorTree()
         {
-            if (startNode == null)
-                throw new ArgumentNullException();
-
-            this.node = startNode;
         }
 
         public bool Update(TContext context)        
         {
+            if (node == null)
+                throw new InvalidOperationException(); // TODO: Add message
             return node.Update(context);
         }
     }

@@ -4,16 +4,18 @@ namespace OBehave
 {
     public abstract class NodeBase<TContext>
         : Node<TContext>
-    {        
-        private Action<TContext> entryAction;
-        private Action<TContext> successAction;
-        private Action<TContext> failureAction;
-        private Action<TContext> exitAction;
+    {
+        private bool wasUpdateCalled = false;
 
-        protected NodeBase(Action<TContext> enteryAction,
-                           Action<TContext> successAction,
-                           Action<TContext> failureAction,
-                           Action<TContext> exitAction)
+        private System.Action<TContext> entryAction;
+        private System.Action<TContext> successAction;
+        private System.Action<TContext> failureAction;
+        private System.Action<TContext> exitAction;
+        
+        protected NodeBase(System.Action<TContext> enteryAction  = null,
+                           System.Action<TContext> successAction = null,
+                           System.Action<TContext> failureAction = null,
+                           System.Action<TContext> exitAction    = null)
         {            
             this.entryAction   = enteryAction;
             this.successAction = successAction;
@@ -22,7 +24,9 @@ namespace OBehave
         }        
 
         public bool Update(TContext context)
-        {            
+        {
+            wasUpdateCalled = true;
+
             CallIfNotNull(entryAction, context);
             
             var status = UpdateImplementation(context);
@@ -39,7 +43,13 @@ namespace OBehave
 
         protected abstract bool UpdateImplementation(TContext context);
 
-        private void CallIfNotNull(Action<TContext> a, TContext context)
+        protected void EnsureUpdateWasNotCalled()
+        {
+            if (wasUpdateCalled)
+                throw new InvalidOperationException(); // TODO: Add message.
+        }
+
+        private void CallIfNotNull(System.Action<TContext> a, TContext context)
         {
             if (a != null)
                 a(context);

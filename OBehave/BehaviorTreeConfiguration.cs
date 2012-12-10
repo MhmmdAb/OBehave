@@ -1,92 +1,130 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 
 namespace OBehave
 {
     public partial class BehaviorTree<TContext>
     {
         public class BehaviorTreeConfiguration
-        {       
-            internal BehaviorTreeConfiguration()
+        {
+            private Stack<Node<TContext>> stack = new Stack<Node<TContext>>();
+            private BehaviorTree<TContext> behaviorTree;
+
+            internal BehaviorTreeConfiguration(BehaviorTree<TContext> behaviorTree)
             {
-                //var bt = new BehaviorTree<object>();
-                //bt.Configure()
-                //    .Selector
-                //        .OnEnter()
-                //        .OnExit()
-                //        .Sequence.OnEnter().OnExit()
-                //            .Leaf(()=> return true).OnEnter()
-                //            .Leaf(()=> return true).OnExit()
-                //            .Selector
-                //                .Leaf()
-                //                .Leaf();
-            }
-            
-            public BehaviorTreeConfiguration Selector
-            {
-                get
-                {                    
-                    return this;
-                }
+                Debug.Assert(behaviorTree.node == null);
+                this.behaviorTree = behaviorTree;
             }
 
-            public BehaviorTreeConfiguration Sequence
+            public BehaviorTreeConfiguration BeginSelector(System.Action<TContext> onEnter   = null,
+                                                           System.Action<TContext> onSuccess = null,
+                                                           System.Action<TContext> onFailure = null,
+                                                           System.Action<TContext> onExit    = null)
             {
-                get
+                if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
+                    throw new InvalidOperationException(); // TODO: Add message
+
+                var selector = new Selector<TContext>(onEnter, onSuccess, onFailure, onExit);
+
+                if (stack.Count != 0)
                 {
-                    return this;
+                    var parent = stack.Peek() as Composite<TContext>;
+                    Debug.Assert(parent != null);
+                    parent.AddChildNode(selector);
                 }
-            }
 
-            public BehaviorTreeConfiguration Leaf(Func<bool> updateAction)
-            {
-                return Leaf(c => updateAction());
-            }
+                if (behaviorTree.node == null)
+                    behaviorTree.node = selector;
 
-            public BehaviorTreeConfiguration Leaf(Func<TContext, bool> updateAction)
-            {
+                stack.Push(selector);
                 return this;
             }
 
-            public BehaviorTreeConfiguration OnEnter(Action enterAction)
+            public BehaviorTreeConfiguration BeginSequence(System.Action<TContext> onEnter = null,
+                                                           System.Action<TContext> onSuccess = null,
+                                                           System.Action<TContext> onFailure = null,
+                                                           System.Action<TContext> onExit = null)
             {
-                return OnEnter(c => enterAction());
-            }
+                if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
+                    throw new InvalidOperationException(); // TODO: Add message
 
-            public BehaviorTreeConfiguration OnEnter(Action<TContext> enterAction)
-            {
+                var sequence = new Sequence<TContext>(onEnter, onSuccess, onFailure, onExit);
+
+                if (stack.Count != 0)
+                {
+                    var parent = stack.Peek() as Composite<TContext>;
+                    Debug.Assert(parent != null);
+                    parent.AddChildNode(sequence);
+                }
+
+                if (behaviorTree.node == null)
+                    behaviorTree.node = sequence;
+
+                stack.Push(sequence);
                 return this;
             }
 
-            public BehaviorTreeConfiguration OnExit(Action exitAction)
+            public BehaviorTreeConfiguration End()
             {
-                return OnExit(c => exitAction());
-            }
-
-            public BehaviorTreeConfiguration OnExit(Action<TContext> exitAction)
-            {
+                if (stack.Count == 0 || !(stack.Peek() is Composite<TContext>))
+                    throw new InvalidOperationException(); // TODO: Add message
+                stack.Pop();
                 return this;
             }
 
-            public BehaviorTreeConfiguration OnSucceeded(Action successAction)
+            public BehaviorTreeConfiguration Action(System.Action<TContext> onUpdate,
+                                                    System.Action<TContext> onEnter   = null,
+                                                    System.Action<TContext> onSuccess = null,
+                                                    System.Action<TContext> onFailure = null,
+                                                    System.Action<TContext> onExit    = null)
             {
-                return OnSucceeded(c => successAction());
-            }
+                if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
+                    throw new InvalidOperationException(); // TODO: Add message
+                
+                var action = new OBehave.Action<TContext>(onUpdate, onEnter, onSuccess, onFailure, onExit);
 
-            public BehaviorTreeConfiguration OnSucceeded(Action<TContext> successAction)
-            {
+                if (stack.Count == 0)
+                {
+                    stack.Push(action);
+                    Debug.Assert(behaviorTree.node == null);
+                    behaviorTree.node = action;
+                }
+                else
+                {
+                    var parent = stack.Peek() as Composite<TContext>;
+                    System.Diagnostics.Debug.Assert(parent != null);
+                    parent.AddChildNode(action);                
+                }
+
                 return this;
             }
 
-            public BehaviorTreeConfiguration OnFailed(Action failureAction)
-            {
-                return OnFailed(c => failureAction());
-            }
+            public BehaviorTreeConfiguration Condition(System.Func<TContext, bool> onUpdate,
+                                                       System.Action<TContext> onEnter   = null,
+                                                       System.Action<TContext> onSuccess = null,
+                                                       System.Action<TContext> onFailure = null,
+                                                       System.Action<TContext> onExit    = null)
 
-            public BehaviorTreeConfiguration OnFailed(Action<TContext> failureAction)
             {
+                if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
+                    throw new InvalidOperationException(); // TODO: Add message
+                
+                var condition = new Condition<TContext>(onUpdate, onEnter, onSuccess, onFailure, onExit);
+
+                if (stack.Count == 0)
+                {
+                    stack.Push(condition);
+                    Debug.Assert(behaviorTree.node == null);
+                    behaviorTree.node = condition;
+                }
+                else
+                {
+                    var parent = stack.Peek() as Composite<TContext>;
+                    System.Diagnostics.Debug.Assert(parent != null);
+                    parent.AddChildNode(condition);                
+                }
+
                 return this;
             }
         }
