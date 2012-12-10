@@ -2,7 +2,7 @@
 
 namespace OBehave
 {
-    class Not<TContext>
+    public class Not<TContext>
         : Leaf<TContext>
     {
         private Node<TContext> node;
