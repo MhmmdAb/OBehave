@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBehave.Tests", "OBehave.Te
 		{47184FF4-6E86-4821-96FF-207B700CBFE5} = {47184FF4-6E86-4821-96FF-207B700CBFE5}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OBehave35", "OBehave35\OBehave35.csproj", "{AED75D05-C90C-4307-84CE-C585F3A3578D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{FCD6A0E7-57B0-43A1-B6C3-73A9C8298395}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCD6A0E7-57B0-43A1-B6C3-73A9C8298395}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCD6A0E7-57B0-43A1-B6C3-73A9C8298395}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AED75D05-C90C-4307-84CE-C585F3A3578D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AED75D05-C90C-4307-84CE-C585F3A3578D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AED75D05-C90C-4307-84CE-C585F3A3578D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AED75D05-C90C-4307-84CE-C585F3A3578D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
