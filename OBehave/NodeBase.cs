@@ -11,13 +11,13 @@ namespace OBehave
         {            
         }        
 
-        public bool Update(TContext context)
+        public NodeStatus Update(TContext context)
         {
             wasUpdateCalled = true;          
             return UpdateImplementation(context);
         }
 
-        protected abstract bool UpdateImplementation(TContext context);
+        protected abstract NodeStatus UpdateImplementation(TContext context);
 
         protected void EnsureUpdateWasNotCalled()
         {

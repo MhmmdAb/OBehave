@@ -17,11 +17,11 @@ namespace OBehave
         {
         }
 
-        public bool Update(TContext context)
+        public void Update(TContext context)
         {
             if (node == null)
                 throw new InvalidOperationException(BehaviorTreeResource.ConfigureMustBeCalledBeforeUpdate);
-            return node.Update(context);
+            node.Update(context);
         }
     }
 
@@ -39,9 +39,9 @@ namespace OBehave
             implementation = new BehaviorTree<object>();
         }
 
-        public bool Update()
+        public void Update()
         {
-            return implementation.Update(null);
+            implementation.Update(null);
         }
 
     }

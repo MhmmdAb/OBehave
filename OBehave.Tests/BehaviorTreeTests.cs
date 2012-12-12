@@ -19,8 +19,8 @@ namespace OBehave.Tests
         public void Calling_Configure_more_than_once_throws()
         {
             var tree = new BehaviorTree();
-            tree.Configure().Action(() => Assert.That(true));
-            tree.Configure().Action(() => Assert.That(true));            
+            tree.Configure().Action(() => true);
+            tree.Configure().Action(() => true);
         }
 
         [Test]
@@ -65,9 +65,21 @@ namespace OBehave.Tests
             var tree = new BehaviorTree();
             var actionCount = 0;
             tree.Configure().BeginSequence()
-                .Action(() => Assert.That(++actionCount == 1))
-                .Action(() => Assert.That(++actionCount == 2))
-                .Action(() => Assert.That(++actionCount == 3))
+                .Action(() =>
+                {
+                    Assert.That(++actionCount == 1);
+                    return true;
+                })
+                .Action(() =>
+                {
+                    Assert.That(++actionCount == 2);
+                    return true;
+                })
+                .Action(() =>
+                {
+                    Assert.That(++actionCount == 3);
+                    return true;
+                })
             .End();            
             tree.Update();
         }
@@ -78,7 +90,11 @@ namespace OBehave.Tests
             var tree = new BehaviorTree();
             tree.Configure().BeginSequence()
                 .Condition(() => true)
-                .Action(() => Assert.That(true))
+                .Action(() =>
+                {
+                    Assert.That(true);
+                    return true;
+                })
             .End();
             tree.Update();
         }
@@ -88,9 +104,13 @@ namespace OBehave.Tests
         {
             var tree = new BehaviorTree();
             tree.Configure().BeginSequence()
-                .Action(() => Assert.That(true))
+                .Action(() => true)
                 .Condition(() => false)
-                .Action(() => Assert.Fail())
+                .Action(() =>
+                {
+                    Assert.Fail();
+                    return true;
+                })
             .End();
             tree.Update();
         }
@@ -105,7 +125,7 @@ namespace OBehave.Tests
                 .BeginSequence()
                     .Action(() => nestedActionWasCalled = true)                        
                 .End()
-                .Action(() => Assert.That(true))
+                .Action(() => true)
             .End();
             tree.Update();
             Assert.That(nestedActionWasCalled);
@@ -118,7 +138,10 @@ namespace OBehave.Tests
             tree.Configure().BeginSequence()
                 .Condition(() => false)
                 .BeginSequence()
-                    .Action(() => Assert.Fail())
+                    .Action(() =>
+                    {
+                        Assert.Fail(); return true;
+                    })
                 .End()
             .End();
             tree.Update();
@@ -131,9 +154,21 @@ namespace OBehave.Tests
 
             var tree = new BehaviorTree();
             tree.Configure().BeginSelector()
-                .Action(() => Assert.That(++callCount == 1))
-                .Action(() => Assert.That(++callCount == 2))
-                .Action(() => Assert.That(++callCount == 3))
+                .Action(() =>
+                {
+                    Assert.That(++callCount == 1);
+                    return true;
+                })
+                .Action(() =>
+                {
+                    Assert.That(++callCount == 2);
+                    return true;
+                })
+                .Action(() =>
+                {
+                    Assert.That(++callCount == 3);
+                    return true;
+                })
             .End();
             tree.Update();
         }
@@ -160,7 +195,10 @@ namespace OBehave.Tests
             tree.Configure().BeginSelector()
                 .BeginSequence()
                     .Condition(() => false)
-                    .Action(() => Assert.Fail())
+                    .Action(() =>
+                    {
+                        Assert.Fail(); return true;
+                    })
                 .End()
             .End();
             tree.Update();

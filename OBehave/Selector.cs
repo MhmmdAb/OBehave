@@ -10,15 +10,26 @@ namespace OBehave
         {
         }
 
-        protected override bool UpdateImplementation(TContext context)
+        protected override Composite<TContext>.CompositeNodeStatus ProcessNode(Node<TContext> node, TContext context)
         {
-            foreach (var node in Nodes)
-            {
-                if (node.Update(context))
-                    return true;
-            }
+            var status = node.Update(context);
 
-            return false;
+            switch (status)
+            {
+                case NodeStatus.Succeeded:
+                    return CompositeNodeStatus.Succeeded;
+
+                case NodeStatus.Failed:
+                    return CompositeNodeStatus.MoveNext;
+
+                default:
+                    return CompositeNodeStatus.Running;
+            }                        
+        }
+
+        protected override NodeStatus EndProcessingNodesStatus(TContext context)
+        {
+            return NodeStatus.Failed;
         }
     }
 }

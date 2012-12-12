@@ -3,7 +3,7 @@
 namespace OBehave
 {
     class Condition<TContext>
-        : Leaf<TContext>
+        : Simple<TContext>
     {
         private System.Func<TContext, bool> updateAction;
 
@@ -15,9 +15,9 @@ namespace OBehave
             this.updateAction = updateAction;
         }
 
-        protected override bool UpdateImplementation(TContext context)
+        protected override NodeStatus UpdateImplementation(TContext context)
         {
-            return updateAction(context);
+            return updateAction(context) ? NodeStatus.Succeeded : NodeStatus.Failed;
         }
     }
 }

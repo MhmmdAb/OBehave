@@ -2,10 +2,10 @@
 
 namespace OBehave
 {
-    public abstract class Leaf<TContext>
+    public abstract class Simple<TContext>
         : NodeBase<TContext>
     {
-        protected Leaf()
+        protected Simple()
         {
         }
     }

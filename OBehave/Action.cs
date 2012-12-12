@@ -3,11 +3,11 @@
 namespace OBehave
 {
     class Action<TContext>
-        : Leaf<TContext>
+        : Simple<TContext>
     {
-        private System.Action<TContext> updateAction;
+        private Func<TContext, bool> updateAction;
 
-        public Action(System.Action<TContext> updateAction)
+        public Action(Func<TContext, bool> updateAction)
         {
             if (updateAction == null)
                 throw new ArgumentNullException(BehaviorTreeResource.UpdateActionCannotBeNull);
@@ -15,10 +15,9 @@ namespace OBehave
             this.updateAction = updateAction;
         }
 
-        protected override bool UpdateImplementation(TContext context)
+        protected override NodeStatus UpdateImplementation(TContext context)
         {
-            updateAction(context);
-            return true;
+            return updateAction(context) ? NodeStatus.Succeeded : NodeStatus.Running;
         }
     }
 }

@@ -54,17 +54,14 @@
     <Compile Include="..\OBehave\Condition.cs">
       <Link>Condition.cs</Link>
     </Compile>
-    <Compile Include="..\OBehave\Leaf.cs">
-      <Link>Leaf.cs</Link>
-    </Compile>
     <Compile Include="..\OBehave\Node.cs">
       <Link>Node.cs</Link>
     </Compile>
     <Compile Include="..\OBehave\NodeBase.cs">
       <Link>NodeBase.cs</Link>
     </Compile>
-    <Compile Include="..\OBehave\Not.cs">
-      <Link>Not.cs</Link>
+    <Compile Include="..\OBehave\NodeStatus.cs">
+      <Link>NodeStatus.cs</Link>
     </Compile>
     <Compile Include="..\OBehave\Properties\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
@@ -74,6 +71,9 @@
     </Compile>
     <Compile Include="..\OBehave\Sequence.cs">
       <Link>Sequence.cs</Link>
+    </Compile>
+    <Compile Include="..\OBehave\Simple.cs">
+      <Link>Simple.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
