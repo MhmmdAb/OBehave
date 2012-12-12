@@ -4,7 +4,7 @@ xbuild_command_name="xbuild"
 type "$xbuild_command_name" > /dev/null 2>&1
 if [ $? != 0 ] ; then
   echo 'Cannot find xbuild.' 1>&2
-  exit 1
+  exit $?
 fi
 
 export EnableNuGetPackageRestore=true
