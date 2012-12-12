@@ -140,7 +140,8 @@ namespace OBehave.Tests
                 .BeginSequence()
                     .Action(() =>
                     {
-                        Assert.Fail(); return true;
+                        Assert.Fail();
+                        return true;
                     })
                 .End()
             .End();
@@ -197,11 +198,48 @@ namespace OBehave.Tests
                     .Condition(() => false)
                     .Action(() =>
                     {
-                        Assert.Fail(); return true;
+                        Assert.Fail();
+                        return true;
                     })
                 .End()
             .End();
             tree.Update();
+        }
+
+        [Test]
+        public void Tree_skips_to_running_action_on_update()
+        {
+            var firstActionCallCount = 0;
+            var runningActionCallCount = 0;
+            var lastActionCallCount = 0;
+
+            var tree = new BehaviorTree();
+            tree.Configure().BeginSequence()
+                .Action(() =>
+                {
+                    ++firstActionCallCount;
+                    return true;
+                })
+                .Action(() =>
+                {
+                    ++runningActionCallCount;
+                    if (runningActionCallCount >= 2)
+                        return true;
+                    return false;
+                })
+                .Action(() =>
+                {
+                    ++lastActionCallCount;
+                    return true;
+                })
+            .End();
+
+            tree.Update();
+            tree.Update();
+            
+            Assert.That(firstActionCallCount == 1);
+            Assert.That(lastActionCallCount == 1);
+            Assert.That(runningActionCallCount == 2);
         }
     }
 }
