@@ -65,21 +65,9 @@ namespace OBehave.Tests
             var tree = new BehaviorTree();
             var actionCount = 0;
             tree.Configure().BeginSequence()
-                .Action(() =>
-                {
-                    Assert.That(++actionCount == 1);
-                    return true;
-                })
-                .Action(() =>
-                {
-                    Assert.That(++actionCount == 2);
-                    return true;
-                })
-                .Action(() =>
-                {
-                    Assert.That(++actionCount == 3);
-                    return true;
-                })
+                .Action(() => Assert.That(++actionCount == 1))
+                .Action(() => Assert.That(++actionCount == 2))
+                .Action(() => Assert.That(++actionCount == 3))
             .End();            
             tree.Update();
         }

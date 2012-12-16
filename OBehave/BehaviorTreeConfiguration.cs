@@ -73,11 +73,21 @@ namespace OBehave
                 return this;
             }
 
+            public BehaviorTreeConfiguration Action(System.Action onUpdate)
+            {
+                return Action(c => { onUpdate(); return true; });
+            }
+
             public BehaviorTreeConfiguration Action(Func<bool> onUpdate)
             {
                 return Action(c => onUpdate());
             }
-            
+
+            public BehaviorTreeConfiguration Action(System.Action<TContext> onUpdate)
+            {
+                return Action(c => { onUpdate(c); return true; });
+            }
+
             public BehaviorTreeConfiguration Action(Func<TContext, bool> onUpdate)
             {
                 if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
@@ -160,6 +170,12 @@ namespace OBehave
             public BehaviorTreeConfiguration End()
             {
                 config.End();
+                return this;
+            }
+
+            public BehaviorTreeConfiguration Action(System.Action onUpdate)
+            {
+                config.Action(onUpdate);
                 return this;
             }
 
