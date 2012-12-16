@@ -11,7 +11,7 @@
     <AssemblyName>OBehave</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <BaseIntermediateOutputPath>..\build\obj\</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\build\net35\obj\</BaseIntermediateOutputPath>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

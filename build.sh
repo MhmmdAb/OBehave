@@ -14,20 +14,24 @@ if [ "$target" = "" ] ; then
 	target="Build"
 fi
 
-xbuild /p:Configuration=Debug /p:TargetFrameworkProfile= /p:OutPutPath=../build/mono/Debug/ /t:"$target" /v:minimal ./OBehave35/OBehave35.csproj
+xbuild /p:Configuration=Debug /p:TargetFrameworkProfile= /p:OutPutPath=../build/mono/Debug/ /p:BaseIntermediateOutputPath=../build/mono/obj/ /t:"$target" /v:minimal ./OBehave35/OBehave35.csproj
 if [ $? != 0 ] ; then
     exit $?
 fi
 
-xbuild /p:Configuration=Release /p:TargetFrameworkProfile= /p:OutPutPath=../build/mono/Release/ /t:"$target" /v:minimal ./OBehave35/OBehave35.csproj
+xbuild /p:Configuration=Release /p:TargetFrameworkProfile= /p:OutPutPath=../build/mono/Release/ /p:BaseIntermediateOutputPath=../build/mono/obj/ /t:"$target" /v:minimal ./OBehave35/OBehave35.csproj
 if [ $? != 0 ] ; then
     exit $?
 fi
 
-xbuild /p:Configuration=Debug /p:TargetFrameworkProfile= /p:OutPutPath=../build/mono-tests/Debug/ /t:"$target" /v:minimal ./OBehave.Tests/OBehave.Tests.csproj
+xbuild /p:Configuration=Debug /p:TargetFrameworkProfile= /p:OutPutPath=../build/mono-tests/Debug/ /p:BaseIntermediateOutputPath=../build/mono-tests/obj/ /t:"$target" /v:minimal ./OBehave.Tests/OBehave.Tests.csproj
 if [ $? != 0 ] ; then
     exit $?
 fi
 
-xbuild /p:Configuration=Release /p:TargetFrameworkProfile= /p:OutPutPath=../build/mono-tests/Release/ /t:"$target" /v:minimal ./OBehave.Tests/OBehave.Tests.csproj
-exit $?
+xbuild /p:Configuration=Release /p:TargetFrameworkProfile= /p:OutPutPath=../build/mono-tests/Release/ /p:BaseIntermediateOutputPath=../build/mono-tests/obj/ /t:"$target" /v:minimal ./OBehave.Tests/OBehave.Tests.csproj
+if [ $? != 0 ] ; then
+    exit $?
+fi
+
+exit 0
