@@ -229,5 +229,41 @@ namespace OBehave.Tests
             Assert.That(lastActionCallCount == 1);
             Assert.That(runningActionCallCount == 2);
         }
+
+        [Test]
+        public void Selector_restarts_on_success()
+        {
+            var condition = false;
+            var firstSequenceWasCalled = false;
+            var secondSequenceWasCalled = false;
+
+            var tree = new BehaviorTree();
+            tree.Configure().BeginSelector()
+                .BeginSequence()
+                    .Condition(() => !condition)
+                    .Action(() => firstSequenceWasCalled = true)
+                .End()
+                .BeginSequence()
+                    .Condition(() => condition)
+                    .Action(() =>
+                    {
+                        condition = false;
+                        secondSequenceWasCalled = true;
+                    })
+                .End()
+            .End();
+
+            condition = true;
+            tree.Update();
+            Assert.That(!firstSequenceWasCalled);
+            Assert.That(secondSequenceWasCalled);
+            Assert.That(!condition);
+            firstSequenceWasCalled = false;
+            secondSequenceWasCalled = false;
+            tree.Update();
+            Assert.That(firstSequenceWasCalled);
+            Assert.That(!secondSequenceWasCalled);
+        }
     }
 }
+

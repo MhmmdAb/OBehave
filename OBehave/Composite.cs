@@ -39,7 +39,7 @@ namespace OBehave
                         return NodeStatus.Running;
 
                     case CompositeNodeStatus.Succeeded:
-                        currentNodeIndex = i;
+                        currentNodeIndex = 0;
                         return NodeStatus.Succeeded;
                         
                     case CompositeNodeStatus.Failed:
