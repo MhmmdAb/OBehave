@@ -18,48 +18,22 @@ namespace OBehave
 
             public BehaviorTreeConfiguration BeginSelector()
             {
-                if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
-                    throw new InvalidOperationException
-                        (BehaviorTreeResource.SelectorMustBeNestedUnderCompositeNodes
-                        );
-
-                var selector = new Selector<TContext>();
-
-                if (stack.Count != 0)
-                {
-                    var parent = stack.Peek() as Composite<TContext>;
-                    Debug.Assert(parent != null);
-                    parent.AddChildNode(selector);
-                }
-
-                if (behaviorTree.node == null)
-                    behaviorTree.node = selector;
-
-                stack.Push(selector);
-                return this;
+                return BeginImplementation(new Selector<TContext>());
             }
 
             public BehaviorTreeConfiguration BeginSequence()
             {
-                if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
-                    throw new InvalidOperationException
-                        (BehaviorTreeResource.SequenceMustBeNestedUnderCompositeNodes
-                        );
+                return BeginImplementation(new Sequence<TContext>());
+            }
 
-                var sequence = new Sequence<TContext>();
+            public BehaviorTreeConfiguration BeginParallel()
+            {
+                return BeginImplementation(new Parallel<TContext>());
+            }
 
-                if (stack.Count != 0)
-                {
-                    var parent = stack.Peek() as Composite<TContext>;
-                    Debug.Assert(parent != null);
-                    parent.AddChildNode(sequence);
-                }
-
-                if (behaviorTree.node == null)
-                    behaviorTree.node = sequence;
-
-                stack.Push(sequence);
-                return this;
+            public BehaviorTreeConfiguration BeginParallel(ParallelCompletionBehavior parallelBehavior)
+            {
+                return BeginImplementation(new Parallel<TContext>(parallelBehavior));
             }
 
             public BehaviorTreeConfiguration End()
@@ -142,6 +116,27 @@ namespace OBehave
 
                 return this;
             }
+
+            private BehaviorTreeConfiguration BeginImplementation(Composite<TContext> node)
+            {
+                if (stack.Count != 0 && !(stack.Peek() is Composite<TContext>))
+                    throw new InvalidOperationException
+                        (BehaviorTreeResource.CompositeMustBeNestedUnderCompositeNodes
+                        );
+
+                if (stack.Count != 0)
+                {
+                    var parent = stack.Peek() as Composite<TContext>;
+                    Debug.Assert(parent != null);
+                    parent.AddChildNode(node);
+                }
+
+                if (behaviorTree.node == null)
+                    behaviorTree.node = node;
+
+                stack.Push(node);
+                return this;
+            }
         }
     }
 
@@ -164,6 +159,18 @@ namespace OBehave
             public BehaviorTreeConfiguration BeginSequence()
             {
                 config.BeginSequence();
+                return this;
+            }
+
+            public BehaviorTreeConfiguration BeginParallel()
+            {
+                config.BeginParallel();
+                return this;
+            }
+
+            public BehaviorTreeConfiguration BeginParallel(ParallelCompletionBehavior parallelBehavior)
+            {
+                config.BeginParallel(parallelBehavior);
                 return this;
             }
 

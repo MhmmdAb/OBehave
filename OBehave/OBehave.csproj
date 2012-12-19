@@ -51,6 +51,7 @@
     </Compile>
     <Compile Include="Composite.cs" />
     <Compile Include="Condition.cs" />
+    <Compile Include="Parallel.cs" />
     <Compile Include="Simple.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NodeBase.cs" />

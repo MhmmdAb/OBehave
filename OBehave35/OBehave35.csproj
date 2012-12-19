@@ -63,6 +63,9 @@
     <Compile Include="..\OBehave\NodeStatus.cs">
       <Link>NodeStatus.cs</Link>
     </Compile>
+    <Compile Include="..\OBehave\Parallel.cs">
+      <Link>Parallel.cs</Link>
+    </Compile>
     <Compile Include="..\OBehave\Properties\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>

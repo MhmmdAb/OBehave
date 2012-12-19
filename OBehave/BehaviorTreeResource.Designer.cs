@@ -70,6 +70,15 @@ namespace OBehave {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Composite nodes can only be nested under other composite nodes.
+        /// </summary>
+        internal static string CompositeMustBeNestedUnderCompositeNodes {
+            get {
+                return ResourceManager.GetString("CompositeMustBeNestedUnderCompositeNodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Conditions can only be nested under either Sequences or Selctors.
         /// </summary>
         internal static string ConditionsMustBeNesterUnderCompositeNodes {
@@ -120,24 +129,6 @@ namespace OBehave {
         internal static string NodesCannotBeNull {
             get {
                 return ResourceManager.GetString("NodesCannotBeNull", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Selectors can only be nested under either Sequences or other Selctors.
-        /// </summary>
-        internal static string SelectorMustBeNestedUnderCompositeNodes {
-            get {
-                return ResourceManager.GetString("SelectorMustBeNestedUnderCompositeNodes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sequences can only be nested under either Selectors or other Sequences.
-        /// </summary>
-        internal static string SequenceMustBeNestedUnderCompositeNodes {
-            get {
-                return ResourceManager.GetString("SequenceMustBeNestedUnderCompositeNodes", resourceCulture);
             }
         }
         

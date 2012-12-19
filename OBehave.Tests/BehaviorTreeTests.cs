@@ -41,7 +41,7 @@ namespace OBehave.Tests
             var tree = new BehaviorTree();
             tree.Configure().Action(() => actionWasCalled = true);            
             tree.Update();
-            Assert.That(actionWasCalled);
+            Assert.That(actionWasCalled, Is.True);
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace OBehave.Tests
                 return false;
             });
             tree.Update();
-            Assert.That(conditionWasCalled);
+            Assert.That(conditionWasCalled, Is.True);
         }
 
         [Test]
@@ -65,9 +65,9 @@ namespace OBehave.Tests
             var tree = new BehaviorTree();
             var actionCount = 0;
             tree.Configure().BeginSequence()
-                .Action(() => Assert.That(++actionCount == 1))
-                .Action(() => Assert.That(++actionCount == 2))
-                .Action(() => Assert.That(++actionCount == 3))
+                .Action(() => Assert.That(++actionCount, Is.EqualTo(1)))
+                .Action(() => Assert.That(++actionCount, Is.EqualTo(2)))
+                .Action(() => Assert.That(++actionCount, Is.EqualTo(3)))
             .End();            
             tree.Update();
         }
@@ -116,7 +116,7 @@ namespace OBehave.Tests
                 .Action(() => true)
             .End();
             tree.Update();
-            Assert.That(nestedActionWasCalled);
+            Assert.That(nestedActionWasCalled, Is.True);
         }
 
         [Test]
@@ -145,17 +145,17 @@ namespace OBehave.Tests
             tree.Configure().BeginSelector()
                 .Action(() =>
                 {
-                    Assert.That(++callCount == 1);
+                    Assert.That(++callCount, Is.EqualTo(1));
                     return true;
                 })
                 .Action(() =>
                 {
-                    Assert.That(++callCount == 2);
+                    Assert.That(++callCount, Is.EqualTo(2));
                     return true;
                 })
                 .Action(() =>
                 {
-                    Assert.That(++callCount == 3);
+                    Assert.That(++callCount, Is.EqualTo(3));
                     return true;
                 })
             .End();
@@ -174,7 +174,7 @@ namespace OBehave.Tests
                 .End()
             .End();
             tree.Update();
-            Assert.That(nestedActionWasCalled);            
+            Assert.That(nestedActionWasCalled, Is.True);            
         }
 
         [Test]
@@ -225,9 +225,9 @@ namespace OBehave.Tests
             tree.Update();
             tree.Update();
             
-            Assert.That(firstActionCallCount == 1);
-            Assert.That(lastActionCallCount == 1);
-            Assert.That(runningActionCallCount == 2);
+            Assert.That(firstActionCallCount, Is.EqualTo(1));
+            Assert.That(lastActionCallCount, Is.EqualTo(1));
+            Assert.That(runningActionCallCount, Is.EqualTo(2));
         }
 
         [Test]
@@ -255,15 +255,113 @@ namespace OBehave.Tests
 
             condition = true;
             tree.Update();
-            Assert.That(!firstSequenceWasCalled);
-            Assert.That(secondSequenceWasCalled);
-            Assert.That(!condition);
+            Assert.That(firstSequenceWasCalled, Is.False);
+            Assert.That(secondSequenceWasCalled, Is.True);
+            Assert.That(condition, Is.False);
+            
             firstSequenceWasCalled = false;
             secondSequenceWasCalled = false;
             tree.Update();
-            Assert.That(firstSequenceWasCalled);
-            Assert.That(!secondSequenceWasCalled);
+            Assert.That(firstSequenceWasCalled, Is.True);
+            Assert.That(secondSequenceWasCalled, Is.False);
         }
+
+        [Test]
+        public void Parallel_runs_all_children_regardless_of_status()
+        {
+            var callCount = 0;
+
+            var tree = new BehaviorTree();
+            tree.Configure().BeginParallel()
+                .Condition(() => false)
+                .Action(() => ++callCount)
+                .Condition(() => true)
+                .Action(() => ++callCount)
+                .BeginSelector()
+                    .BeginSequence()
+                        .Condition(() => true)
+                        .Action(() => ++callCount)
+                    .End()
+                .End()
+            .End();            
+            tree.Update();
+
+            Assert.That(callCount, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Parallel_returns_to_running_node()
+        {
+            var firstCallCount = 0;
+            var secondCallCount = 0;
+            var longRunningAcionRanOnce = false;
+
+            var tree = new BehaviorTree();
+            tree.Configure().BeginParallel()
+                .Action(() => ++firstCallCount)
+                .Action(() =>
+                {
+                    if (!longRunningAcionRanOnce)
+                    {
+                        longRunningAcionRanOnce = true;
+                        return false;
+                    }
+
+                    return true;
+                })
+                .Action(() => ++secondCallCount)
+            .End();
+
+            tree.Update();
+            Assert.That(firstCallCount, Is.EqualTo(1));
+            Assert.That(secondCallCount, Is.EqualTo(0));
+
+            tree.Update();
+            Assert.That(firstCallCount, Is.EqualTo(1));
+            Assert.That(secondCallCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void Parallel_fails_when_configured_with_SucceedWhenAllChildrenSucceed_and_a_child_fails()
+        {
+            var callCount = 0;
+
+            var tree = new BehaviorTree();
+            tree.Configure().BeginSelector()
+                .BeginSequence()
+                    .BeginParallel(ParallelCompletionBehavior.SucceedWhenAllChildrenSucceed)
+                        .Action(() => ++callCount)
+                        .Condition(() => false)
+                        .Action(() => ++callCount)
+                    .End()
+                    .Action(() => Assert.Fail())
+                .End()
+                .Action(() => ++callCount)
+            .End();
+            tree.Update();
+            Assert.That(callCount, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Parallel_fails_when_configured_with_SucceedWhenAllChildrenFail_and_a_child_succeeds()
+        {
+            var callCount = 0;
+
+            var tree = new BehaviorTree();
+            tree.Configure().BeginSelector()
+                .BeginSequence()
+                    .BeginParallel(ParallelCompletionBehavior.SucceedWhenAllChildrenFail)
+                        .Condition(() => false)
+                        .Condition(() => true)
+                    .End()
+                    .Action(() => Assert.Fail())
+                .End()
+                .Action(() => ++callCount)
+            .End();
+            tree.Update();
+            Assert.That(callCount, Is.EqualTo(1));
+        }
+
     }
 }
 
